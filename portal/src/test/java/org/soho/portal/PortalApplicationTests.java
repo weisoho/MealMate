@@ -1,10 +1,10 @@
-package org.soho.mealmate;
+package org.soho.portal;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MealMateApplicationTests {
+class PortalApplicationTests {
 
     @Test
     void contextLoads() {

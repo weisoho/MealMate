@@ -1,13 +1,13 @@
-package org.soho.mealmate;
+package org.soho.portal;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MealMateApplication {
+public class PortalApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MealMateApplication.class, args);
+        SpringApplication.run(PortalApplication.class, args);
     }
 
 }
