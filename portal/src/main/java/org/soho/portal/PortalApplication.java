@@ -7,13 +7,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * @author wesoho
  * @version 1.0
- * @description: APS-rWJpSV5xoOc7er7xBG6WwxdoqneQKPww
+ * @description:
  * @date 2024/10/10 23:52
  */
 @MapperScan("org.soho.portal.mapper")
 @SpringBootApplication
 public class PortalApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(PortalApplication.class,args);
+        SpringApplication.run(PortalApplication.class, args);
     }
+
 }

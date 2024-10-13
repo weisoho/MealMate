@@ -19,9 +19,9 @@ import java.io.Serializable;
 public class BaseResponse<T> implements Serializable {
     private int resultCode;
 
-    private T data;
-
     private String resultInfo;
+
+    private T data;
 
     public BaseResponse(ErrorCode errorCode) {
         this.resultCode = errorCode.getCode();
@@ -35,7 +35,17 @@ public class BaseResponse<T> implements Serializable {
      * @param <T>   返回的数据类型
      */
     public static <T> BaseResponse<T> success(T data) {
-        return new BaseResponse<>(0, data, "ok");
+        return new BaseResponse<>(0,"ok",data);
+    }
+
+    /**
+     * 成功
+     *
+     * @param data  返回的数据
+     * @param <T>   返回的数据类型
+     */
+    public static <T> BaseResponse<T> success(int code, String message, T data) {
+        return new BaseResponse<>(code,message,data);
     }
 
     /**
@@ -54,16 +64,26 @@ public class BaseResponse<T> implements Serializable {
      * @param message   错误信息
      */
     public static <T> BaseResponse<T> error(int code, String message) {
-        return new BaseResponse<>(code, null, message);
+        return new BaseResponse<>(code,message,null);
     }
 
     /**
      * 失败
      *
      * @param errorCode      错误码
-     * @param msg   错误信息
+     * @param message   错误信息
      */
-    public static <T> BaseResponse<T> error(ErrorCode errorCode,String msg) {
-        return new BaseResponse<>(errorCode.getCode(), null, msg);
+    public static <T> BaseResponse<T> error(ErrorCode errorCode,String message) {
+        return new BaseResponse<>(errorCode.getCode(),message,null);
+    }
+
+    /**
+     * 失败
+     *
+     * @param code      错误码
+     * @param message   错误信息
+     */
+    public static <T> BaseResponse<T> error(int code, String message, T data) {
+        return new BaseResponse<>(code,message,data);
     }
 }

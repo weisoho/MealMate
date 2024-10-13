@@ -3,5 +3,8 @@ spring:
     name: portal
   profiles:
     active: dev
+  messages:
+    basename: ValidationMessages,ExceptionMessages
+    encoding: UTF-8
 server:
   port: 8090
