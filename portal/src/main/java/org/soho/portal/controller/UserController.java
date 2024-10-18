@@ -14,6 +14,7 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    //TODO 头像图片（OSS），密码机密（加密算法or权限框架）
     @PostMapping("register")
     public BaseResponse<Long> register(@RequestBody @Validated UserRegisterDTO userRegisterDTO) {
 
