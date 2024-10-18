@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
     @Resource
     private MessageSource messageSource;
 
-    // <2> 处理 json 请求体调用接口校验失败抛出的异常
+    // 处理 json 请求体调用接口校验失败抛出的异常
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public BaseResponse<String> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         log.error("Handling MethodArgumentNotValidException:{}",e.getMessage());
