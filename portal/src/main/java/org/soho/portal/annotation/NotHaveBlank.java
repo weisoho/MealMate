@@ -14,7 +14,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NotHaveBlank {
     //验证不通过时默认信息
-    String message() default "{org.soho.constraints.NotHaveBlank.message}";
+    String message() default "{validate.notHaveBlank.message}";
 
     //属于的分组，默认为default
     Class<?>[] groups() default {};

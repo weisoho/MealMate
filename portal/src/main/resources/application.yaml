@@ -4,7 +4,8 @@ spring:
   profiles:
     active: dev
   messages:
-    basename: ValidationMessages,ExceptionMessages
+#    国际化文件
+    basename: i18n/messages
     encoding: UTF-8
 server:
   port: 8090

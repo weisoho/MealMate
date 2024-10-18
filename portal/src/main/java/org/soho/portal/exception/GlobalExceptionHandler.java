@@ -6,7 +6,6 @@ import org.soho.portal.common.BaseResponse;
 import org.soho.portal.model.enums.ErrorCode;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author wesoho
@@ -30,25 +28,28 @@ public class GlobalExceptionHandler {
 
     // <2> 处理 json 请求体调用接口校验失败抛出的异常
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public BaseResponse<List<String>> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
-        List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
-        List<String> errorMessages = fieldErrors.stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.toList());
+    public BaseResponse<String> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+        log.error("Handling MethodArgumentNotValidException:{}",e.getMessage());
         String badRequestMsg = messageSource.getMessage("exception.badRequest", null, LocaleContextHolder.getLocale());
+        List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
+        if (fieldErrors.isEmpty()) {
+            return BaseResponse.error(HttpStatus.BAD_REQUEST.value(), badRequestMsg);
+        }
+        //自定义注解写的Message信息
+        String defaultErrorMessage = fieldErrors.get(0).getDefaultMessage();
 
-        return BaseResponse.error(HttpStatus.BAD_REQUEST.value(), badRequestMsg, errorMessages);
+        return BaseResponse.error(HttpStatus.BAD_REQUEST.value(), badRequestMsg, defaultErrorMessage);
     }
 
     @ExceptionHandler(BusinessException.class)
     public BaseResponse<String> businessExceptionHandler(BusinessException e) {
-        log.error("BusinessException", e);
+        log.error("BusinessException{}", e.getMessage());
         return BaseResponse.error(e.getCode(), e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
     public BaseResponse<String> exceptionHandler(Exception e) {
-        log.error("BusinessException", e);
+        log.error("Exception{}", e.getMessage());
         return BaseResponse.error(ErrorCode.SYSTEM_ERROR, e.getMessage());
     }
 }

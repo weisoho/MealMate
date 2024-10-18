@@ -1,5 +1,6 @@
 package org.soho.portal.model.dto.user;
 
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.soho.portal.annotation.NotHaveBlank;
 
@@ -18,12 +19,15 @@ public class UserRegisterDTO implements Serializable {
     private static final long serialVersionUID = 3191241716373120793L;
 
     //用户账号
-    @NotHaveBlank()
+    @NotHaveBlank(message = "{validate.account.cantHaveBlank.message}")
     private String username;
 
     //用户密码
+    @NotHaveBlank(message = "{validate.password.cantHaveBlank.message}")
+    @Size(min = 5,max = 20,message = "{validate.account.size.message}")
     private String userPassword;
 
     //校验密码
+    @NotHaveBlank(message = "{validate.password.cantHaveBlank.message}")
     private String checkPassword;
 }
