@@ -1,0 +1,5 @@
+minio:
+  endpoint: http://127.0.0.1:9000
+  accessKey: GtOe3z3oHqKeEPa1qsUc
+  secretKey: ztbAknufshRpZlkDqXz1bbOgjnD5zomsbQ77dbpO
+  bucketName: meal-img-public

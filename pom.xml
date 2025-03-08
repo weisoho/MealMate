@@ -15,8 +15,8 @@
     <name>MealMate</name>
     <description>MealMate订餐小程序客户端后台</description>
     <modules>
-        <module>common</module>
-        <module>portal</module>
+        <module>meal-common</module>
+        <module>meal-portal</module>
     </modules>
     <properties>
         <java.version>17</java.version>
@@ -96,6 +96,20 @@
                 <version>3.3.3</version>
             </dependency>
 
+            <!-- Sa-Token 权限认证，在线文档：https://sa-token.cc -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-spring-boot3-starter</artifactId>
+                <version>1.39.0</version>
+            </dependency>
+
+            <!--minio依赖-->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>8.5.13</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -105,6 +119,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <mainClass>org.soho.portal.PortalApplication</mainClass>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
