@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -17,13 +18,14 @@ import java.sql.Timestamp;
  */
 @TableName("front_users")
 @Data
+@Builder
 public class UserEntity {
 
     @TableId(value = "id", type = IdType.AUTO) // 自增主键
     private Integer id; // 主键
 
     @TableField("uer_id")
-    private String userId; // 用户ID
+    private Long userId; // 用户ID
 
     @TableField("username")
     private String username; // 用户名

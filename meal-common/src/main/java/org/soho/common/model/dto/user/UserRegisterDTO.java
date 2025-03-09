@@ -1,8 +1,6 @@
 package org.soho.common.model.dto.user;
 
-import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.soho.common.annotation.NotHaveBlank;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serial;
@@ -19,19 +17,9 @@ public class UserRegisterDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 3191241716373120793L;
 
-    //用户账号
-    @NotHaveBlank(message = "{validate.account.cantHaveBlank.message}")
-    private String username;
+    //  手机号
+    private String phone;
 
-    //用户密码
-    @NotHaveBlank(message = "{validate.password.cantHaveBlank.message}")
-    @Size(min = 5,max = 20,message = "{validate.account.size.message}")
-    private String userPassword;
-
-    //校验密码
-    @NotHaveBlank(message = "{validate.password.cantHaveBlank.message}")
-    private String checkPassword;
-
-    //头像
+    // 头像
     private MultipartFile avatar;
 }

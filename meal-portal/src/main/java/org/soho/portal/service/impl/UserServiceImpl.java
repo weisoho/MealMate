@@ -1,9 +1,9 @@
 package org.soho.portal.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import org.soho.common.constant.Constant;
-import org.soho.common.exception.BusinessException;
 import org.soho.common.model.dto.user.UserRegisterDTO;
 import org.soho.common.model.entity.UserEntity;
 import org.soho.common.model.enums.ErrorCode;
@@ -12,6 +12,7 @@ import org.soho.common.util.MessageUtil;
 import org.soho.portal.mapper.UserMapper;
 import org.soho.portal.service.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author wesoho
@@ -29,32 +30,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     private MinioService minioService;
 
     @Override
-    public long registerUser(UserRegisterDTO userRegisterDTO) {
-        String userPassword = userRegisterDTO.getUserPassword();
-        String username = userRegisterDTO.getUsername();
-        String checkPassword = userRegisterDTO.getCheckPassword();
-        if (!checkPassword.equals(userPassword)) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, messageUtil.getMessage("exception.register.password.dif"));
+    public boolean registerUser(UserRegisterDTO userRegisterDTO) {
+        QueryWrapper<UserEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(true, "phone", userRegisterDTO.getPhone());
+        UserEntity one = this.getOne(queryWrapper);
+        if (one != null) {
+            log.error(ErrorCode.DUPLICATE_PHONE_NUMBER.getMessage() + userRegisterDTO.getPhone());
+            return false;
         }
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUsername(username);
-        userEntity.setUserId(username);
-        userEntity.setPassword(userPassword);
+        long userId = IdWorker.getId();
+        UserEntity userEntity = UserEntity.builder().userId(userId).phone(userRegisterDTO.getPhone()).build();
         try {
-            //上传头像
-            minioService.uploadAvatar(userRegisterDTO.getAvatar(), username);
-            boolean saveResult = this.save(userEntity);
-            if (!saveResult) {//若未存储成功
-                throw new BusinessException(ErrorCode.SYSTEM_ERROR, messageUtil.getMessage("exception.register.dataBase"));
-            }
+            MultipartFile avatarFile = userRegisterDTO.getAvatar();
+            // 上传头像
+            minioService.uploadAvatar(avatarFile, userId);
+            return this.save(userEntity);
         } catch (Exception e) {
-            if (e.getMessage().contains(Constant.Duplicate_Entry)) {// 唯一键账号重复
-                throw new BusinessException(ErrorCode.PARAMS_ERROR, messageUtil.getMessage("exception.register.account.exits"));
-            } else {
-                throw new BusinessException(ErrorCode.SYSTEM_ERROR, messageUtil.getMessage("exception.register.dataBase") + e.getMessage());
-            }
+            log.error(e.getMessage(), e);
         }
 
-        return userEntity.getId();
+        return true;
     }
 }

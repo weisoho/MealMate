@@ -37,10 +37,11 @@ public class MinioService {
     @Resource
     private MessageUtil messageUtil;
 
-    public void uploadAvatar(MultipartFile avatar, String username) throws IOException {
-        MultipartFile avatarFile = avatar;
-        // 生成文件名
-        String uniqueFileName = generateUniqueFileName(avatarFile.getOriginalFilename(), username);
+    public void uploadAvatar(MultipartFile avatarFile, long userId) throws IOException {
+        if (avatarFile == null) return;
+        String originalFilename = avatarFile.getOriginalFilename();
+        if (originalFilename == null || originalFilename.isEmpty()) return;
+        String uniqueFileName = userId + "_" + DateUtil.now("yyyyMMddHHmmss") + originalFilename.substring(originalFilename.lastIndexOf("."));
         // 上传文件
         uploadFile(avatarFile.getInputStream(), avatarFile.getContentType(), uniqueFileName, getBucketName());
     }
@@ -56,7 +57,7 @@ public class MinioService {
     @SneakyThrows
     public ObjectWriteResponse uploadFile(InputStream inputStream, String contentType, String objectName, String bucketName) {
         if (inputStream == null) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, messageUtil.getMessage("exception.file.null"));
+            throw new BusinessException(ErrorCode.FILE_NOT_FOUND);
         }
         if (!bucketExists(bucketName)) {
             makeBucket(bucketName);
@@ -87,11 +88,4 @@ public class MinioService {
         minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
     }
 
-    // 生成唯一文件名
-    public String generateUniqueFileName(String originalFileName, String username) {
-        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-        String nowTimestamp = DateUtil.now("yyyyMMddHHmmss");
-        String uniqueFileName = username + "_" + nowTimestamp + fileExtension;
-        return uniqueFileName;
-    }
 }

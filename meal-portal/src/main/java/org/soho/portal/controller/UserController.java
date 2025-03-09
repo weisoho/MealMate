@@ -18,11 +18,9 @@ public class UserController {
     private UserService userService;
 
     //TODO 1、头像图片（minio）
-    // 2、密码加密（结合sa-token）
-    // 3、手机号注册（邮箱注册等）
-    // 4、
+    // 2、手机号注册
     @PostMapping("register")
-    public BaseResponse<Long> register(@ModelAttribute @Validated UserRegisterDTO userRegisterDTO) {
+    public BaseResponse<Boolean> register(@ModelAttribute @Validated UserRegisterDTO userRegisterDTO) {
 
         return BaseResponse.success(userService.registerUser(userRegisterDTO));
     }
