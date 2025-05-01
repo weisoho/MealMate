@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @date 2024/10/7 21:26
  */
 @Data
-public class UserRegisterDTO implements Serializable {
+public class RegisterUserDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 3191241716373120793L;
 

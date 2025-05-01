@@ -1,9 +1,16 @@
 package org.soho.portal.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.soho.common.model.dto.user.UserRegisterDTO;
+import org.soho.common.model.dto.user.RegisterUserDTO;
 import org.soho.common.model.entity.UserEntity;
+import org.soho.common.model.vo.LoginWeChatVo;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
 public interface UserService  extends IService<UserEntity> {
-    boolean registerUser(UserRegisterDTO userRegisterDTO);
+    boolean insertUser(RegisterUserDTO registerUserDTO);
+
+    Mono<LoginWeChatVo> wechatLogin(String code, ServerWebExchange exchange);
+
+    UserEntity smsLogin(String phone,String code);
 }

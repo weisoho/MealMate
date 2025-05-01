@@ -34,6 +34,16 @@ public class BaseResponse<T> implements Serializable {
      * @param data  返回的数据
      * @param <T>   返回的数据类型
      */
+    public          static <T> BaseResponse<T> success() {
+        return new BaseResponse<>(0,"ok",null);
+    }
+
+    /**
+     * 成功
+     *
+     * @param data  返回的数据
+     * @param <T>   返回的数据类型
+     */
     public static <T> BaseResponse<T> success(T data) {
         return new BaseResponse<>(0,"ok",data);
     }

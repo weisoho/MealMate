@@ -24,8 +24,8 @@ public class UserEntity {
     @TableId(value = "id", type = IdType.AUTO) // 自增主键
     private Integer id; // 主键
 
-    @TableField("uer_id")
-    private Long userId; // 用户ID
+    @TableField("user_id")
+    private String userId; // 用户ID
 
     @TableField("username")
     private String username; // 用户名
@@ -46,7 +46,7 @@ public class UserEntity {
     private BigDecimal vipBalance; // 会员卡余额，默认值0.00
 
     @TableField("vip_level")
-    private BigDecimal vipLevel; // 会员等级，默认值0.00
+    private int vipLevel; // 会员等级，默认值0
 
     @TableField("created_at")
     private Timestamp createdAt; // 创建时间
@@ -56,4 +56,10 @@ public class UserEntity {
 
     @TableField("avatar")
     private String avatar;//头像信息（桶名称+“-”+文件名称）
+
+    @TableField("avatar_url")
+    private String avatarUrl;
+
+    @TableField("session_key")
+    private String session_key;
 }

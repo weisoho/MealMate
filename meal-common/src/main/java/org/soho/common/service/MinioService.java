@@ -37,7 +37,7 @@ public class MinioService {
     @Resource
     private MessageUtil messageUtil;
 
-    public void uploadAvatar(MultipartFile avatarFile, long userId) throws IOException {
+    public void uploadAvatar(MultipartFile avatarFile, String userId) throws IOException {
         if (avatarFile == null) return;
         String originalFilename = avatarFile.getOriginalFilename();
         if (originalFilename == null || originalFilename.isEmpty()) return;
