@@ -36,24 +36,9 @@ external-services:
       read-timeout: 7s
       write-timeout: 6s
 # Sa-Token配置
-sa-token:
-  # token名称 (同时也是cookie名称)
-  token-name: sa-token-authorization
-  # token有效期，单位s 默认30天, -1代表永不过期
-  timeout: 3600
-  # token风格
-  token-style: random-32
-  # 是否尝试从 header 里读取 Token
-  is-read-head: true
-  is-use-redis: true  # 必须显式开启Redis存储
-  # 是否开启自动续签
-  auto-renew: true
-  # 临时有效期，单位s，例如将其配置为 1800 (30分钟)，代表用户如果30分钟无操作，则此Token会立即过期
-  activity-timeout: 1800
-  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时同端互斥)
-  is-concurrent: false
-  # 配置 Sa-Token 单独使用的 Redis 连接
-
+jwt:
+  secret: daf66e01593f61a15b857cf433aae03a005812b31234e149036bcc8dee755dbb
+  expiration: 604800000
 logging:
   level:
     cn.dev33.satoken: DEBUG  # 开启 Sa-Token 详细日志

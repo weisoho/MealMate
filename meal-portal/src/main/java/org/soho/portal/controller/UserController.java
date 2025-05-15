@@ -8,7 +8,6 @@ import org.soho.common.model.vo.LoginWeChatVo;
 import org.soho.portal.service.UserService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -18,6 +17,11 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    /**
+     * 注册用户
+     * @param registerUserDTO   入参
+     * @return  注册结果
+     */
     @PostMapping("register")
     public BaseResponse<Boolean> register(@ModelAttribute @Validated RegisterUserDTO registerUserDTO) {
 
@@ -27,11 +31,11 @@ public class UserController {
     /**
      * 微信一键登录
      * @param code  微信获取到的登录码
-     * @return  存储的token
+     * @return  存储的token和用户信息
      */
     @GetMapping("login/wechat")
-    public Mono<BaseResponse<LoginWeChatVo>> wechatLogin(@RequestParam String code,ServerWebExchange  exchange){
-        return userService.wechatLogin(code, exchange)
+    public Mono<BaseResponse<LoginWeChatVo>> wechatLogin(@RequestParam String code){
+        return userService.wechatLogin(code)
                 .map(BaseResponse::success); // 包装为统一响应格式;
     }
 
